@@ -16,8 +16,13 @@ class CalculatorController extends Controller
     public function calculate(Request $request): array
     {
         $instructions = $request->instructions;
-        $instructions = CalculatorService::calc($instructions);
-        return $instructions;
+        $instruction = CalculatorService::calc($instructions);
+        error_log(print_r($instructions, true));
+        $response = [
+            'oldInstruction' => implode('', $instructions).' =',
+            'instruction' => $instruction
+        ];
+        return $response;
     }
    
 }

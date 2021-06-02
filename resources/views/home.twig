@@ -5,8 +5,16 @@
 	<div class="col-sm-12 col-md-6 col-lg-4">
 		<h1 class="text-center ">Kikokotoo</h1>
 	   	<div id="calculator" class="border rounded shadow-sm">
-		   <div id="screen" class="border rounded">
-			   0
+	   		<div id="screen" class="border rounded">
+	   			<a id="button-history" data-bs-toggle="offcanvas" href="#offcanvas-history">
+	   				<i class="fas fa-history"></i>
+	   			</a>
+				<span id="screen-line2">
+					&nbsp;
+				</span>
+				<span id="screen-line1">
+					0
+				</span>					  		
 		   </div>
 		   <div id="buttons">
 				{% for button in buttons %}
@@ -14,6 +22,20 @@
 				{% endfor %}
 			</div>
 	   </div>
+	</div>
+
+	
+	{# OffCanvas history #}
+	<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvas-history">
+  		<div class="offcanvas-header">
+    		<h3 class="offcanvas-title">Historique</h3>
+    		<button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  		</div>
+  		<div class="offcanvas-body">
+	  		<ul id="list-history">
+	  			<li class="fw-light text-muted">Vos calculs et vos résultats s'affichent ici pour que vous puissiez les réutiliser.</li>
+	  		</ul>
+  		</div>
 	</div>
 
 {% endblock %} 

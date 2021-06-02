@@ -1,5 +1,6 @@
 @import 'bootstrap'; 
-
+@import "node_modules/@fortawesome/fontawesome-free/scss/fontawesome.scss";
+@import "node_modules/@fortawesome/fontawesome-free/scss/solid";
 
 html, body {
 	background-color: $light;
@@ -18,9 +19,29 @@ html, body {
 	margin-top: 2rem;
 	padding: 1rem;
 	#screen {
+		display: grid;
+		grid-template: 1fr 2rem / 1fr;
 		margin-bottom: 1.5rem;
 		padding: 0.5rem;
+		position: relative;
 		text-align: right;
+		span {
+			&#screen-line1 {
+				line-height: 2rem;
+				font-size: 2rem;
+			}
+			&#screen-line2 {
+				color: $gray-600;
+				font-size: smaller;
+			}
+		}
+		#button-history,
+		#button-history:visited {
+			color: $gray-300;
+			position: absolute;
+			top: 10px;
+			left: 10px;
+		}
 	}
 	#buttons {
 		display: grid;
@@ -36,6 +57,30 @@ html, body {
 			&.btn-light:hover {
 				background-color: darken($light, 5%);
 			}
+		}
+	}
+}
+
+#list-history {
+	list-style: inside none;
+	margin: 0;
+	padding: 0;
+	li {
+		padding: 0;
+		margin: 0 0 1rem 0;
+		display: flex;
+		flex-wrap: nowrap;
+		align-items: center;
+		justify-content: flex-start;
+		button {
+			display: block;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+		span {
+			display: inline-block;
+			padding: 0 0.5rem;
 		}
 	}
 }
