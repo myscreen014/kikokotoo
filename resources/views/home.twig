@@ -2,5 +2,19 @@
 
 {% block content %}
 
+	<div class="col-sm-12 col-md-6 col-lg-4">
+		<h1 class="text-center ">Kikokotoo</h1>
+	   	<div id="calculator" class="border rounded shadow-sm">
+		   <div id="screen" class="border rounded">
+			   0
+		   </div>
+		   <div id="buttons">
+				{% for button in buttons %}
+					<a href="" data-value="{{ button.label|raw }}" class="btn button {% if button.class %} {{ button.class }} {% endif %}">{{ button.label|raw }}</a>
+				{% endfor %}
+			</div>
+	   </div>
+	</div>
+
 {% endblock %} 
   

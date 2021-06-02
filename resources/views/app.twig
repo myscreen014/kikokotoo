@@ -9,9 +9,13 @@
         <link rel="stylesheet" href="/css/app.css">
     </head>
     <body>
-        
-        {% block content %}
-        {% endblock %}
+
+        <div class="container">
+            <div class="row justify-content-center align-items-center">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </div>
 
         {# Javascript #}
         <script src="/js/app.js"></script>
