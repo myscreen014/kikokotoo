@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+use App\Services\CalculatorService; // TO REMOVE !!!!!!!
+
 class HomeController extends Controller
 {
     public function index() {
@@ -23,7 +25,7 @@ class HomeController extends Controller
             ['label' => '3',        'class' => 'btn-light'], 
             ['label' => '&plus;',   'class' => 'btn-light'],
             ['label' => '0',        'class' => 'button-zero btn-light'], 
-            ['label' => ',',        'class' => 'btn-light'],
+            ['label' => '.',        'class' => 'btn-light'],
             ['label' => '=',        'class' => 'button-egual btn-info' ]
         ];
         return view('home', ['buttons' => $buttons]);
