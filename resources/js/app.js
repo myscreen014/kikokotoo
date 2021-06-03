@@ -143,7 +143,7 @@ window.onload = () => {
             }
             instruction = instructionString;
             result = preparedDisplay(element[1]);
-            historyList.innerHTML = historyList.innerHTML + '<li><button id="button-history-instruction-'+index+'" data-instruction="'+element[0]+'" class="btn btn-outline-primary btn-sm">'+instruction+'</button><span>=</span><button id="button-history-result-'+index+'" data-instruction="'+element[1]+'" class="btn btn-outline-primary btn-sm">'+result+'</button></li>';
+            historyList.innerHTML = historyList.innerHTML + '<li><button id="button-history-instruction-'+index+'" data-instruction="'+element[0]+'" data-bs-toggle="offcanvas" href="#offcanvas-history" class="btn btn-outline-primary btn-sm">'+instruction+'</button><span>=</span><button id="button-history-result-'+index+'" data-instruction="'+element[1]+'" data-bs-toggle="offcanvas" href="#offcanvas-history" class="btn btn-outline-primary btn-sm">'+result+'</button></li>';
         });
         for (var i = 0; i <= instructionsHistory.length - 1; i++) {
             document.getElementById('button-history-instruction-'+i).addEventListener ("click", loadInstructions, false);
