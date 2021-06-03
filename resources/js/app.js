@@ -19,7 +19,7 @@ let instructionsHistory = [];
  * @return {Void}.
  */
 const manageKey = (instruction) => {
-    instruction = instruction.trim();
+    instruction = instruction.toString().trim();
     switch(instruction) {
         case 'C':
             instructions = [];
@@ -121,13 +121,15 @@ const preparedDisplay = (value) => {
 // Main -----------------------------------------------------------------------------------------
 window.onload = () => {
 
-    // Events buttons
+    // Events buttons calculator
     for (let button of buttons) {
         button.addEventListener('click', (event) => {
             event.preventDefault(); 
             manageKey(event.target.dataset.value);
         });   
     }
+
+    // Events buttons history
     historyButton.addEventListener('click', (event) => {
         if (instructionsHistory.length>0) {
             historyList.innerHTML = '';
@@ -148,6 +150,25 @@ window.onload = () => {
             document.getElementById('button-history-result-'+i).addEventListener ("click", loadInstructions, false);
         }
     });   
+
+    // Events simple keyboard
+    document.addEventListener("keydown", event => {
+        var key = event.key;
+        if (['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '.', '+', '/', '-', '+', 'Enter', 'Backspace'].includes(key)) {
+            switch (key) {
+                case 'Enter':
+                    manageKey('=');
+                    break;
+                case 'Backspace':
+                    manageKey('C');
+                    break;
+                default:
+                    manageKey(event.key);
+                    break;
+            }  
+        }
+    });
+
 }
 
 
