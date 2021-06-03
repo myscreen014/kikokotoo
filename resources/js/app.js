@@ -22,8 +22,7 @@ const manageKey = (instruction) => {
     instruction = instruction.toString().trim();
     switch(instruction) {
         case 'C':
-            instructions = [];
-            screenLine2.innerHTML = '';
+            instructions = clearLatest(instructions);
             break;
         case '+':
         case '-':
@@ -85,8 +84,8 @@ const manageKey = (instruction) => {
 /**
  * Display instructions on the screen.
  *
- * @param {Object} instructions.
- * @return {Void}
+ * @param {object} instructions.
+ * @return {void}
  */
 const display = (instructions, oldInstruction) => {
     var instructionString = '';
@@ -100,22 +99,44 @@ const display = (instructions, oldInstruction) => {
             oldInstructionString += preparedDisplay(oldInstruction[i]);
         }
         screenLine2.innerHTML = oldInstructionString + '=';
+    } else if (instructions.length == 0) {
+        screenLine2.innerHTML = '';
     }
 }
+
+
+/**
+ * Remove Latest instruction.
+ *
+ * @param {object} instructions.
+ * @return {void}
+ */
+const clearLatest = (instructions) => {
+    instructions.pop()
+    return instructions;
+}
+
 
 /**
  * Load instructions from history
  *
- * @param {Event} event.
- * @return {Void}
+ * @param {event} event.
+ * @return {void}
  */
 const loadInstructions = (event) => {
     instructions = event.target.dataset.instruction.split(',');
     display(instructions);
 }
 
-const preparedDisplay = (value) => {
-    return value.toString().replace('/', '&divide;').replace('*', '&times;').replace('-', '&minus;').replace('+', '&plus;');
+
+/**
+ * Prepare instruction for display
+ *
+ * @param {string} instruction.
+ * @return {string}
+ */
+const preparedDisplay = (instruction) => {
+    return instruction.toString().replace('/', '&divide;').replace('*', '&times;').replace('-', '&minus;').replace('+', '&plus;');
 }
 
 
@@ -155,7 +176,7 @@ window.onload = () => {
     // Events simple keyboard
     document.addEventListener("keydown", event => {
         var key = event.key;
-        if (['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '.', '+', '/', '-', '+', 'Enter', 'Backspace'].includes(key)) {
+        if (['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '.', '*', '/', '-', '+', 'Enter', 'Backspace'].includes(key)) {
             switch (key) {
                 case 'Enter':
                     manageKey('=');
