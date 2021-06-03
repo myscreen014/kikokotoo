@@ -17,7 +17,6 @@ class CalculatorController extends Controller
     {
         $instructions = $request->instructions;
         $instruction = CalculatorService::calc($instructions);
-        error_log(print_r($instructions, true));
         $response = [
             'oldInstruction' => implode('', $instructions).' =',
             'instruction' => $instruction
