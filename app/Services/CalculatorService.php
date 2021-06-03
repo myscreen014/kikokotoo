@@ -10,11 +10,11 @@ class CalculatorService
      * @return array
      */
 	public static function calc(array $instructions): array {
-		$key =  array_search('×', $instructions);
+		$key =  array_search('*', $instructions);
 		if ($key !== false) {
 			$newInstruction = floatval($instructions[$key - 1]) * floatval($instructions[$key + 1]);
 		} else {
-			$key =  array_search('÷', $instructions);
+			$key =  array_search('/', $instructions);
 			if ($key !== false) {
 				$newInstruction = floatval($instructions[$key - 1]) / floatval($instructions[$key + 1]);
 			} else {
@@ -22,7 +22,7 @@ class CalculatorService
 				if ($key !== false) {
 					$newInstruction = floatval($instructions[$key - 1]) + floatval($instructions[$key + 1]);
 				} else {
-					$key =  array_search('−', $instructions);
+					$key =  array_search('-', $instructions);
 					if ($key !== false) {
 						$newInstruction = floatval($instructions[$key - 1]) - floatval($instructions[$key + 1]);
 					}

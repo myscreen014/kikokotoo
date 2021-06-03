@@ -18,7 +18,7 @@
 		   </div>
 		   <div id="buttons">
 				{% for button in buttons %}
-					<a href="" data-value="{{ button.label|raw }}" class="btn button {% if button.class %} {{ button.class }} {% endif %}">{{ button.label|raw }}</a>
+					<a href="" data-value="{%if button.value %} {{ button.value|raw }} {% else %} {{ button.label|raw }} {% endif %}" class="btn button {% if button.class %} {{ button.class }} {% endif %}">{{ button.label|raw }}</a>
 				{% endfor %}
 			</div>
 	   </div>

@@ -19,19 +19,20 @@ let instructionsHistory = [];
  * @return {Void}.
  */
 const manageKey = (instruction) => {
+    instruction = instruction.trim();
     switch(instruction) {
         case 'C':
             instructions = [];
             break;
         case '+':
-        case '−':
-        case '×':
-        case '÷':
-            if (['+', '−', '×', '÷'].includes(instructions[instructions.length-1])) {
+        case '-':
+        case '*':
+        case '/':
+            if (['+', '-', '*', '/'].includes(instructions[instructions.length-1])) {
                 instructions[instructions.length-1] = instruction
-            } else {
+            } else if ((instructions.length == 0 && instruction == '-') || instructions.length>0) {
                 instructions.push(instruction.toString());  
-            } 
+            }
             break;
         case '.':
             if (instructions.length>0) {
@@ -42,7 +43,6 @@ const manageKey = (instruction) => {
         case '=':
             // Check if is possible : min [number, operator, number] and if length of instruction is odd
             if (instructions.length >=3 && instructions.length%2!==0) {
-                let oldInstructions = instructions.join('');
                 fetch('api/calculator',{
                     method: "POST",
                     headers: {
@@ -63,9 +63,11 @@ const manageKey = (instruction) => {
             }
             break;
         default:
-            if ((instructions.length > 0 && parseFloat(instructions[instructions.length - 1]) >= 0) && parseFloat(instruction) >= 0) {
+            // If last instruction is number => concat
+            if ((instructions.length == 1 && instructions[instructions.length - 1] == '-') || (instructions.length > 0 && parseFloat(instructions[instructions.length - 1]) >= 0) && parseFloat(instruction) >= 0) {
                 let last = (instructions.length > 0) ? instructions.pop() : '';    
                 instructions.push(last.toString() + instruction.toString());
+            // Else add new instruction
             } else {
                 instructions.push(instruction.toString());
             }
@@ -85,8 +87,10 @@ const display = (instructions, oldInstruction) => {
     for (var i = 0; i <= instructions.length - 1; i++) {
         instructionString += instructions[i];
     }
+    instructionString = preparedDisplay(instructionString);
     screenLine1.innerHTML = (instructionString !== '') ? instructionString : '0';
     if (typeof oldInstruction != 'undefined') {
+        oldInstruction = preparedDisplay(oldInstruction);
         screenLine2.innerHTML = oldInstruction;
     }
 }
@@ -100,6 +104,10 @@ const display = (instructions, oldInstruction) => {
 const loadInstructions = (event) => {
     instructions = event.target.dataset.instruction.split(',');
     display(instructions);
+}
+
+const preparedDisplay = (value) => {
+    return value.replace('/', '&divide;').replace('*', '&times;').replace('-', '&minus;').replace('+', '&plus;');
 }
 
 
@@ -123,8 +131,12 @@ window.onload = () => {
         if (instructionsHistory.length>0) {
             historyList.innerHTML = '';
         }
+        var instruction;
+        var result;
         instructionsHistory.forEach(function(element, index, array) {
-            historyList.innerHTML = historyList.innerHTML + '<li><button id="button-history-instruction-'+index+'" data-instruction="'+element[0]+'" class="btn btn-outline-primary btn-sm">'+element[0].join(' ').toString()+'</button><span>=</span><button id="button-history-result-'+index+'" data-instruction="'+element[1]+'" class="btn btn-outline-primary btn-sm">'+element[1].toString()+'</button></li>';
+            instruction = preparedDisplay(element[0].join(' ').toString());
+            result = preparedDisplay(element[1].toString());
+            historyList.innerHTML = historyList.innerHTML + '<li><button id="button-history-instruction-'+index+'" data-instruction="'+element[0]+'" class="btn btn-outline-primary btn-sm">'+instruction+'</button><span>=</span><button id="button-history-result-'+index+'" data-instruction="'+element[1]+'" class="btn btn-outline-primary btn-sm">'+result+'</button></li>';
         });
         for (var i = 0; i <= instructionsHistory.length - 1; i++) {
             document.getElementById('button-history-instruction-'+i).addEventListener ("click", loadInstructions, false);

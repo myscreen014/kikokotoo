@@ -57,6 +57,9 @@ html, body {
 			&.btn-light:hover {
 				background-color: darken($light, 5%);
 			}
+			&.btn-info {
+				color: white;
+			}
 		}
 	}
 }
