@@ -98,7 +98,7 @@ const display = (instructions, oldInstruction) => {
         for (var i = 0; i <= oldInstruction.length - 1; i++) {
             oldInstructionString += preparedDisplay(oldInstruction[i]);
         }
-        screenLine2.innerHTML = oldInstructionString;
+        screenLine2.innerHTML = oldInstructionString + '=';
     }
 }
 
