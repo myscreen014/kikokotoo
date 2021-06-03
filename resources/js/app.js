@@ -54,10 +54,15 @@ const manageKey = (instruction) => {
                     })
                 }).then(function(response) {
                     return response.json().then(function(response) {
-                        instructionsHistory.push([instructions, response.instruction]);
-                        instructions = [];
-                        instructions.push(response.instruction[0]);                      
-                        display(response.instruction, response.oldInstruction);
+                        if (response.error) {
+                            instructions = [];
+                            display([response.error]);
+                        } else {
+                            instructionsHistory.push([instructions, response.instruction]);
+                            instructions = [];
+                            instructions.push(response.instruction[0]);                      
+                            display(response.instruction, response.oldInstruction);    
+                        } 
                     });
                 });
             }
@@ -85,13 +90,15 @@ const manageKey = (instruction) => {
 const display = (instructions, oldInstruction) => {
     var instructionString = '';
     for (var i = 0; i <= instructions.length - 1; i++) {
-        instructionString += instructions[i];
+        instructionString += preparedDisplay(instructions[i]);
     }
-    instructionString = preparedDisplay(instructionString);
     screenLine1.innerHTML = (instructionString !== '') ? instructionString : '0';
     if (typeof oldInstruction != 'undefined') {
-        oldInstruction = preparedDisplay(oldInstruction);
-        screenLine2.innerHTML = oldInstruction;
+        var oldInstructionString = '';
+        for (var i = 0; i <= oldInstruction.length - 1; i++) {
+            oldInstructionString += preparedDisplay(oldInstruction[i]);
+        }
+        screenLine2.innerHTML = oldInstructionString;
     }
 }
 
@@ -107,7 +114,7 @@ const loadInstructions = (event) => {
 }
 
 const preparedDisplay = (value) => {
-    return value.replace('/', '&divide;').replace('*', '&times;').replace('-', '&minus;').replace('+', '&plus;');
+    return value.toString().replace('/', '&divide;').replace('*', '&times;').replace('-', '&minus;').replace('+', '&plus;');
 }
 
 
@@ -121,12 +128,6 @@ window.onload = () => {
             manageKey(event.target.dataset.value);
         });   
     }
-    let buttonsa = document.getElementById("list-history").querySelectorAll("button");
-    for (let buttona of buttonsa) {
-        buttona.addEventListener('click', (event) => {
-            alert('boom');
-        });
-    }
     historyButton.addEventListener('click', (event) => {
         if (instructionsHistory.length>0) {
             historyList.innerHTML = '';
@@ -134,8 +135,12 @@ window.onload = () => {
         var instruction;
         var result;
         instructionsHistory.forEach(function(element, index, array) {
-            instruction = preparedDisplay(element[0].join(' ').toString());
-            result = preparedDisplay(element[1].toString());
+            var instructionString = '';
+            for (var i = 0; i <= element[0].length - 1; i++) {
+                instructionString += preparedDisplay(element[0][i]);
+            }
+            instruction = instructionString;
+            result = preparedDisplay(element[1]);
             historyList.innerHTML = historyList.innerHTML + '<li><button id="button-history-instruction-'+index+'" data-instruction="'+element[0]+'" class="btn btn-outline-primary btn-sm">'+instruction+'</button><span>=</span><button id="button-history-result-'+index+'" data-instruction="'+element[1]+'" class="btn btn-outline-primary btn-sm">'+result+'</button></li>';
         });
         for (var i = 0; i <= instructionsHistory.length - 1; i++) {

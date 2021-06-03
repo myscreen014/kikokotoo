@@ -16,9 +16,13 @@ class CalculatorController extends Controller
     public function calculate(Request $request): array
     {
         $instructions = $request->instructions;
-        $instruction = CalculatorService::calc($instructions);
+        try {
+            $instruction = CalculatorService::calc($instructions);
+        } catch (\DivisionByZeroError $e) {
+            return ['error' => $e->getMessage()];
+        }
         $response = [
-            'oldInstruction' => implode('', $instructions).' =',
+            'oldInstruction' => $instructions,
             'instruction' => $instruction
         ];
         return $response;
