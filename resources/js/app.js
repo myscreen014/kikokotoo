@@ -23,6 +23,7 @@ const manageKey = (instruction) => {
     switch(instruction) {
         case 'C':
             instructions = [];
+            screenLine2.innerHTML = '';
             break;
         case '+':
         case '-':
